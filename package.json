@@ -1,0 +1,24 @@
+{
+  "name": "paxit",
+  "version": "0.1.0",
+  "description": "IKEA® Pax configurator with WebGL",
+  "main": "index.js",
+  "scripts": {
+    "copyMarkup": "cp -r ./src/markup/index.html ./dist/",
+    "copyLib": "cp -r ./lib ./dist/",
+    "copyBabylon": "cp node_modules/babylonjs/babylon.js dist/lib",
+    "copyExternals": "npm run copyMarkup && npm run copyLib && npm run copyBabylon",
+    "build": "webpack --config webpack.config.js && npm run copyExternals"
+  },
+  "keywords": [
+    "webgl"
+  ],
+  "author": "Daniel Gooß",
+  "license": "MIT",
+  "dependencies": {
+    "babylonjs": "^2.5.0"
+  },
+  "devDependencies": {
+    "webpack": "^2.2.0"
+  }
+}
