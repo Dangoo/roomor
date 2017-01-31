@@ -6,7 +6,7 @@
   "scripts": {
     "copyMarkup": "cp -r ./src/markup/index.html ./dist/",
     "copyLib": "cp -r ./lib ./dist/",
-    "copyBabylon": "cp node_modules/babylonjs/babylon.js dist/lib",
+    "copyBabylon": "cp node_modules/three/build/three.min.js dist/lib",
     "copyExternals": "npm run copyMarkup && npm run copyLib && npm run copyBabylon",
     "build": "webpack --config webpack.config.js && npm run copyExternals"
   },
@@ -20,7 +20,7 @@
   "author": "Daniel Gooß",
   "license": "MIT",
   "dependencies": {
-    "babylonjs": "^2.5.0"
+    "three": "^0.84.0"
   },
   "devDependencies": {
     "webpack": "^2.2.0",

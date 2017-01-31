@@ -11,7 +11,7 @@ module.exports = {
         filename: '[name].bundle.js',
     },
     externals: {
-        babylonjs: 'BABYLON' 
+        three: 'THREE'
     },
     target: 'web',
     devtool: 'source-map'

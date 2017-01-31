@@ -71,7 +71,7 @@
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = importMesh;
+/* unused harmony export importMesh */
 function importMesh(name, scene, config) {
     BABYLON.SceneLoader.ImportMesh(
         name,
@@ -182,7 +182,7 @@ class Room {
         this.room.position.y = (this.size.height / 2) + adjustGroundHeight;
     }
 }
-/* harmony export (immutable) */ __webpack_exports__["a"] = Room;
+/* unused harmony export Room */
 
 
 
@@ -193,24 +193,23 @@ class Room {
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = createScene;
 // This begins the creation of a function that we will 'call' just after it's built
-function createScene(canvas, engine) {
+function createScene(engine) {
     // Now create a basic Babylon Scene object 
-    const scene = new BABYLON.Scene(engine);
+    const scene = new THREE.Scene();
     // Enable Collisions
+    /*
     scene.collisionsEnabled = true;
     scene.gravity = new BABYLON.Vector3(0, -0.9, 0);
+    */
 
-    const backgroundColor = new BABYLON.Color3(.95, .95, .95);
-    // Change the scene background color to green.
-    scene.clearColor = backgroundColor;
+    const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
+    camera.position.z = 1000;
 
-    // This creates and positions a free camera
-    const camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 5, -10), scene);
-    // This targets the camera to scene origin
-    camera.setTarget(BABYLON.Vector3.Zero());
-    // This attaches the camera to the canvas
-    camera.attachControl(canvas, false);
+    const backgroundColor = new THREE.Color(.95, .95, .95);
+    // Change the scene background color to green.  
+    scene.background = backgroundColor;
 
+    /*
     // This creates a light, aiming 0,1,0 - to the sky.
     const skyLight = new BABYLON.HemisphericLight("skyLight", new BABYLON.Vector3(0, 1, 0), scene);
 
@@ -229,94 +228,20 @@ function createScene(canvas, engine) {
     ground.material = gridMaterial;
     ground.isPickable = false;
 
-    scene.fogMode = BABYLON.Scene.FOGMODE_EXP;
-    scene.fogColor = backgroundColor;
+    */
+    scene.fog = new THREE.FogExp2(backgroundColor);
 
-    // Enable moving of elements
-    var startingPoint;
-    var currentMesh;
-
-    var getGroundPosition = function () {
-        // Use a predicate to get position on the ground
-        var pickinfo = scene.pick(scene.pointerX, scene.pointerY, function (mesh) { return mesh == ground; });
-        if (pickinfo.hit) {
-            return pickinfo.pickedPoint;
-        }
-
-        return null;
-    }
-
-    var onPointerDown = function (evt) {
-        if (evt.button !== 0) {
-            return;
-        }
-
-        // check if we are under a mesh
-        var pickInfo = scene.pick(scene.pointerX, scene.pointerY);
-
-        if (pickInfo.hit) {
-            currentMesh = pickInfo.pickedMesh;
-
-            //currentMesh.enableEdgesRendering(.9999);
-            currentMesh.edgesWidth = 3;
-            currentMesh.edgesColor = new BABYLON.Color4(0, 0, 1, 1);
-
-            startingPoint = getGroundPosition(evt);
-
-            if (startingPoint) { // we need to disconnect camera from canvas
-                setTimeout(function () {
-                    camera.detachControl(canvas);
-                }, 0);
-            }
-        }
-    }
-
-    var onPointerUp = function () {
-        if (startingPoint) {
-            camera.attachControl(canvas, true);
-            startingPoint = null;
-            //currentMesh.disableEdgesRendering();
-            currentMesh = null;
-            return;
-        }
-    }
-
-    var onPointerMove = function (evt) {
-        if (!startingPoint) {
-            return;
-        }
-
-        var current = getGroundPosition(evt);
-
-        if (!current) {
-            return;
-        }
-
-        var diff = current.subtract(startingPoint);
-        currentMesh.moveWithCollisions(diff);
-
-        startingPoint = current;
-
-    }
-
-    canvas.addEventListener("pointerdown", onPointerDown, false);
-    canvas.addEventListener("pointerup", onPointerUp, false);
-    canvas.addEventListener("pointermove", onPointerMove, false);
-
-    scene.onDispose = function () {
-        canvas.removeEventListener("pointerdown", onPointerDown);
-        canvas.removeEventListener("pointerup", onPointerUp);
-        canvas.removeEventListener("pointermove", onPointerMove);
-    }
-
-    return scene;
+    return {
+        scene: scene,
+        camera: camera
+    };
 };
 
 /***/ }),
 /* 3 */
 /***/ (function(module, exports) {
 
-module.exports = BABYLON;
+module.exports = THREE;
 
 /***/ }),
 /* 4 */
@@ -324,8 +249,8 @@ module.exports = BABYLON;
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babylonjs__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babylonjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babylonjs__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_three__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_three___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_three__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__scene_js__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__room_js__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__importMesh_js__ = __webpack_require__(0);
@@ -336,14 +261,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 // Get the canvas element from our HTML above
 const canvas = document.getElementById("renderCanvas");
-// Load the BABYLON 3D engine
-const engine = new __WEBPACK_IMPORTED_MODULE_0_babylonjs___default.a.Engine(canvas, true);
+console.log(__WEBPACK_IMPORTED_MODULE_0_three__);
+// Load the THREE 3D engine
+const engine = new __WEBPACK_IMPORTED_MODULE_0_three__["WebGLRenderer"]({ canvas: canvas });
 // Now, call the createScene function that you just finished creating
-const scene = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__scene_js__["a" /* createScene */])(canvas, engine);
+const scene = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__scene_js__["a" /* createScene */])(engine);
 
+/*
 function roomComplete(room) {
     // Shadow
-    const shadowGenerator = new __WEBPACK_IMPORTED_MODULE_0_babylonjs___default.a.ShadowGenerator(1024, room.roomLight);
+    const shadowGenerator = new BABYLON.ShadowGenerator(1024, room.roomLight);
     shadowGenerator.useBlurVarianceShadowMap = true;
     shadowGenerator.blurScale = 2;
     // shadowGenerator.bias = 0.005;
@@ -370,18 +297,24 @@ function roomComplete(room) {
         shadowGenerator: shadowGenerator
     };
 
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__importMesh_js__["a" /* importMesh */])('model', scene, paxConfig);
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__importMesh_js__["a" /* importMesh */])('strandmon', scene, strandmonConfig);
+    importMesh('model', scene, paxConfig);
+    importMesh('strandmon', scene, strandmonConfig);
 }
+*/
 
 // Register a render loop to repeatedly render the scene
-engine.runRenderLoop(function () {
-    scene.render();
-});
+function render() {
+    requestAnimationFrame( render );
 
+    engine.render(scene.scene, scene.camera);
+}
+
+render();
+
+/*
 // Watch for browser/canvas resize events
 window.addEventListener("resize", () => {
-    engine.resize();
+    scene.render();
 });
 
 let room = undefined;
@@ -401,13 +334,14 @@ window.addEventListener("submit", (e) => {
     if (room) {
         room.update(roomSize);
     } else {
-        room = new __WEBPACK_IMPORTED_MODULE_2__room_js__["a" /* Room */](roomSize, scene);
+        room = new Room(roomSize, scene);
     }
 
     room.room.receiveShadows = true;
 
     roomComplete(room);
 });
+*/
 
 console.log(scene);
 

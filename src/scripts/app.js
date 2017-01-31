@@ -1,15 +1,17 @@
-import BABYLON from 'babylonjs';
+import * as THREE from 'three';
 import { createScene } from './scene.js';
 import { Room } from './room.js';
 import { importMesh } from './importMesh.js'
 
 // Get the canvas element from our HTML above
 const canvas = document.getElementById("renderCanvas");
-// Load the BABYLON 3D engine
-const engine = new BABYLON.Engine(canvas, true);
+console.log(THREE);
+// Load the THREE 3D engine
+const engine = new THREE.WebGLRenderer({ canvas: canvas });
 // Now, call the createScene function that you just finished creating
-const scene = createScene(canvas, engine);
+const scene = createScene(engine);
 
+/*
 function roomComplete(room) {
     // Shadow
     const shadowGenerator = new BABYLON.ShadowGenerator(1024, room.roomLight);
@@ -42,15 +44,21 @@ function roomComplete(room) {
     importMesh('model', scene, paxConfig);
     importMesh('strandmon', scene, strandmonConfig);
 }
+*/
 
 // Register a render loop to repeatedly render the scene
-engine.runRenderLoop(function () {
-    scene.render();
-});
+function render() {
+    requestAnimationFrame( render );
 
+    engine.render(scene.scene, scene.camera);
+}
+
+render();
+
+/*
 // Watch for browser/canvas resize events
 window.addEventListener("resize", () => {
-    engine.resize();
+    scene.render();
 });
 
 let room = undefined;
@@ -77,5 +85,6 @@ window.addEventListener("submit", (e) => {
 
     roomComplete(room);
 });
+*/
 
 console.log(scene);
