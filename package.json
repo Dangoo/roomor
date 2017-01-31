@@ -19,6 +19,7 @@
     "babylonjs": "^2.5.0"
   },
   "devDependencies": {
-    "webpack": "^2.2.0"
+    "webpack": "^2.2.0",
+    "webpack-dev-server": "^1.16.2"
   }
 }
