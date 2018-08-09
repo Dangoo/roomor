@@ -8,7 +8,8 @@
     "copyLib": "cp -r ./lib ./dist/",
     "copyBabylon": "cp node_modules/babylonjs/babylon.js dist/lib",
     "copyExternals": "npm run copyMarkup && npm run copyLib && npm run copyBabylon",
-    "build": "webpack --config webpack.config.js && npm run copyExternals"
+    "build": "webpack --config webpack.config.js && npm run copyExternals",
+    "serve": "http-server ./dist"
   },
   "keywords": [
     "webgl"
@@ -20,7 +21,8 @@
   "author": "Daniel Gooß",
   "license": "MIT",
   "dependencies": {
-    "babylonjs": "^2.5.0"
+    "babylonjs": "^2.5.0",
+    "http-server": "^0.11.1"
   },
   "devDependencies": {
     "webpack": "^2.2.0",

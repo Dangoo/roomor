@@ -6,9 +6,9 @@
 /******/ 	function __webpack_require__(moduleId) {
 /******/
 /******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId])
+/******/ 		if(installedModules[moduleId]) {
 /******/ 			return installedModules[moduleId].exports;
-/******/
+/******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
 /******/ 			i: moduleId,
@@ -350,7 +350,7 @@ function roomComplete(room) {
     // shadowGenerator.usePoissonSampling = true;
 
     const paxConfig = {
-        path: '/dist/lib/',
+        path: '/lib/',
         fileName: 'pax.babylon',
         position: {
             x: 2,
@@ -360,7 +360,7 @@ function roomComplete(room) {
     };
 
     const strandmonConfig = {
-        path: '/dist/lib/',
+        path: '/lib/',
         fileName: 'strandmon.babylon',
         position: {
             x: -2,

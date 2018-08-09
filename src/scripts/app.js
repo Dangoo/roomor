@@ -19,7 +19,7 @@ function roomComplete(room) {
     // shadowGenerator.usePoissonSampling = true;
 
     const paxConfig = {
-        path: '/dist/lib/',
+        path: '/lib/',
         fileName: 'pax.babylon',
         position: {
             x: 2,
@@ -29,7 +29,7 @@ function roomComplete(room) {
     };
 
     const strandmonConfig = {
-        path: '/dist/lib/',
+        path: '/lib/',
         fileName: 'strandmon.babylon',
         position: {
             x: -2,
